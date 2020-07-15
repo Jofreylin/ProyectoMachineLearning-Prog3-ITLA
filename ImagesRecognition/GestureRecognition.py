@@ -38,7 +38,7 @@ def implicit():
 # TODO(developer): Uncomment and set the following variables
 project_id = "automl-vision-api-283118"
 model_id = "ICN3862999963772387328"
-file_path = "Mano3.jpeg"
+file_path = "Mano2.png"
 
 prediction_client = automl.PredictionServiceClient()
 
@@ -61,6 +61,10 @@ params = {"score_threshold": "0.8"}
 
 response = prediction_client.predict(model_full_id, payload, params)
 print("Prediction results:")
-for result in response.payload:
-    print("Predicted class name: {}".format(result.display_name))
-    print("Predicted class score: {}".format(result.classification.score))
+
+if len(response.payload)==0:
+    print("No se pudo identificar el modelo")
+else:
+    for result in response.payload:
+            print("Predicted class name: {}".format(result.display_name))
+            print("Predicted class score: {}".format(result.classification.score))
