@@ -2,39 +2,6 @@ from google.cloud import automl
 import os
 os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "automl-vision-api-4aecf082f068.json"
 
-"""""
-from google_auth_oauthlib import flow
-
-# TODO: Uncomment the line below to set the `launch_browser` variable.
-launch_browser = True
-#
-# The `launch_browser` boolean variable indicates if a local server is used
-# as the callback URL in the auth flow. A value of `True` is recommended,
-# but a local server does not work if accessing the application remotely,
-# such as over SSH or from a remote Jupyter notebook.
-
-appflow = flow.InstalledAppFlow.from_client_secrets_file(
-    'client_secret_780908075204-t0l40kme33up86okpun6hvf425pcbqqo.apps.googleusercontent.com.json',
-    scopes=['https://www.googleapis.com/auth/cloud-platform'])
-
-if launch_browser:
-    appflow.run_local_server()
-else:
-    appflow.run_console()
-
-credentials = appflow.credentials
-
-def implicit():
-    from google.cloud import storage
-
-    # If you don't specify credentials when constructing the client, the
-    # client library will look for credentials in the environment.
-    storage_client = storage.Client()
-
-    # Make an authenticated API request
-    buckets = list(storage_client.list_buckets())
-    print(buckets)
-"""""
 # TODO(developer): Uncomment and set the following variables
 project_id = "automl-vision-api-283118"
 model_id = "ICN3862999963772387328"
