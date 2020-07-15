@@ -1,6 +1,6 @@
 from google.cloud import automl
 import os
-os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "automl-vision-api-2e7deeee7f7f.json"
+os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "automl-vision-api-4aecf082f068.json"
 
 """""
 from google_auth_oauthlib import flow
