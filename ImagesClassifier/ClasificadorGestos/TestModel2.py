@@ -22,7 +22,7 @@ def test(image_file):
         CATEGORIES = labels_file.read().split(',')
         class_names = np.array(CATEGORIES)
 
-        IMG_SIZE = 150
+        IMG_SIZE = 100
 
         def prepare(filepath):
             img_array = cv2.imread(filepath,cv2.IMREAD_GRAYSCALE)
@@ -59,7 +59,7 @@ def test(image_file):
     except:
         return ('ERROR: No se ha podido realizar el analisis.')
 
-print(test('files_dependencies/test/WhatsApp.jpeg'))
+print(test('files_dependencies/test/hand-1598187_960_720.jpg'))
 #dog.jpg cat 100% - dog 100%
 #dog2.png irreconocible - dog 100%
 #gato2.jpg no se ha reconocido - no se ha reconocido
