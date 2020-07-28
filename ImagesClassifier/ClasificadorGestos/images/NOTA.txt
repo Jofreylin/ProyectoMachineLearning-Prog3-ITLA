@@ -1,2 +1,0 @@
-Las imagenes que van dentro de la carpeta VALIDATION se utilizan para testear el modelo, por lo tanto
-no pueden ser las mismas a las que estan en la carpeta TRAIN.
