@@ -49,7 +49,7 @@ def train():
 
         training_data = []
         testing_data = []
-        IMG_SIZE = 150
+        IMG_SIZE = 100
 
 
 
@@ -117,9 +117,11 @@ def train():
         total_train = len(training_data)
         total_val = len(testing_data)
 
+        random.shuffle(training_data)
+        random.shuffle(testing_data)
 
         BATCH_SIZE = 32
-        IMG_SHAPE = 150  # square image
+        IMG_SHAPE = IMG_SIZE  # square image
 
         X = []
         y = []
@@ -158,22 +160,13 @@ def train():
         model = tf.keras.models.Sequential([
             # Note the input shape is the desired size of the image 150x150 with 3 bytes color
             # This is the first convolution
-            tf.keras.layers.Conv2D(64, (3, 3), activation='relu', input_shape=(IMG_SIZE, IMG_SIZE, 1)),
-            tf.keras.layers.MaxPooling2D(2, 2),
-            # The second convolution
-            tf.keras.layers.Conv2D(64, (3, 3), activation='relu'),
-            tf.keras.layers.MaxPooling2D(2, 2),
-            # The third convolution
-            tf.keras.layers.Conv2D(128, (3, 3), activation='relu'),
-            tf.keras.layers.MaxPooling2D(2, 2),
-            # The fourth convolution
-            tf.keras.layers.Conv2D(128, (3, 3), activation='relu'),
-            tf.keras.layers.MaxPooling2D(2, 2),
-            # Flatten the results to feed into a DNN
-            tf.keras.layers.Flatten(),
+            tf.keras.layers.AveragePooling2D(6,3, input_shape=(100,100,1)),
+            tf.keras.layers.Conv2D(64, 3, activation='relu'),
+            tf.keras.layers.Conv2D(32, 3, activation='relu'),
+            tf.keras.layers.MaxPool2D(2,2),
             tf.keras.layers.Dropout(0.5),
-            # 512 neuron hidden layer
-            tf.keras.layers.Dense(512, activation='relu'),
+            tf.keras.layers.Flatten(),
+            tf.keras.layers.Dense(128, activation='relu'),
             tf.keras.layers.Dense(3, activation='softmax')
                 ])
         # sample output: [0, 0.1, 0, 0.2, 0.7, 0, 0, 0, 0, 0] --> coat
@@ -181,7 +174,7 @@ def train():
         model.compile(optimizer='adam', loss="binary_crossentropy",
                       metrics=['accuracy'])
         # train
-        model.fit(train_images, train_labels, epochs=10)
+        model.fit(train_images, train_labels, validation_data=(test_images,test_labels), steps_per_epoch=18, epochs=50,batch_size=32)
         test_loss, test_acc = model.evaluate(test_images, test_labels, verbose=2)
         print("Test accuracy: ", test_acc)
         model.save("files_dependencies/model/model.h5")
