@@ -1,0 +1,68 @@
+import cv2
+import tensorflow as tf
+import numpy as np
+import os
+
+"""
+-------------------------
+INSTALACIONES
+-------------------------
+pip install tensorflow
+pip install opencv-python
+=========================
+"""
+def test(image_file):
+    try:
+        try:
+            labels_file = open('files_dependencies/labels.txt', 'r')
+        except:
+            return ('No se ha podido encontrar el archivo labels.txt (se crea al entrenar el modelo)')
+
+        CATEGORIES = []
+        CATEGORIES = labels_file.read().split(',')
+        class_names = np.array(CATEGORIES)
+
+        IMG_SIZE = 150
+
+        def prepare(filepath):
+            img_array = cv2.imread(filepath,cv2.IMREAD_GRAYSCALE)
+            new_array = cv2.resize(img_array, (IMG_SIZE, IMG_SIZE))
+            return new_array.reshape(-1, IMG_SIZE, IMG_SIZE, 1)
+
+
+        model = tf.keras.models.load_model("files_dependencies/model/model.h5")
+
+        #model.summary()
+
+        #print(class_names)
+        images_reshaped = tf.cast(prepare(image_file), tf.float32)
+        prediction = model.predict(images_reshaped)
+
+        #print(prediction)
+        #top_k = prediction[0].argsort()[-len(prediction[0]):][::-1]
+
+        predicted_label = np.argmax(prediction[0])
+        confidence = 100 * np.max(prediction[0])
+        if confidence < 80:
+            return ('No se ha reconocido la imagen.')
+        else:
+            return ("{} {:2.0f}%".format(class_names[predicted_label],100 * np.max(prediction[0])))
+
+        '''for node_id in top_k:
+            score = prediction[0][node_id]
+            # score = score*100
+            print('(score = %2.0f)' % score*100)
+            print(float(prediction[0][0]))  # will be a list in a list.
+            print(CATEGORIES[int(prediction[0][0])])
+        
+            print(predicted_label)'''
+    except:
+        return ('ERROR: No se ha podido realizar el analisis.')
+
+print(test('files_dependencies/test/WhatsApp.jpeg'))
+#dog.jpg cat 100% - dog 100%
+#dog2.png irreconocible - dog 100%
+#gato2.jpg no se ha reconocido - no se ha reconocido
+#gato.jpg cat 100% - dog 100%
+
+

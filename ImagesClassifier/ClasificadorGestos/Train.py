@@ -34,19 +34,19 @@ pip install pil
 """
 
 
-train_dir = 'images/train'
-validate_dir = 'images/validation'
+train_dir = 'files_dependencies/images/train'
+validate_dir = 'files_dependencies/images/validation'
 
 #labels_names = ['Dog', 'Cat']
 
-DATADIR_TRAIN = 'images/train/'
-DATADIR_TEST = 'images/validation/'
+DATADIR_TRAIN = 'files_dependencies/images/train/'
+DATADIR_TEST = 'files_dependencies/images/validation/'
 
-labels_file= open('labels.txt','r')
+labels_file= open('files_dependencies/labels.txt','r')
 
 CATEGORIES = []
 
-CATEGORIES = labels_file.read().split(',');
+CATEGORIES = labels_file.read().split(',')
 
 for category in CATEGORIES:  # do dogs and cats
     path = os.path.join(DATADIR_TRAIN,category)  # create path to dogs and cats
@@ -192,4 +192,4 @@ for dense_layer in dense_layers:
                       validation_steps=total_val // batch_size,
                       callbacks=[tensorboard])
 
-model.save('64x3-CNN.model')
+model.save('files_dependencies/model/model.h5')
