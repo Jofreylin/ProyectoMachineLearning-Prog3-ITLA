@@ -14,7 +14,7 @@ pip install opencv-python
 def test(image_file):
     try:
         try:
-            labels_file = open('files_dependencies/labels.txt', 'r')
+            labels_file = open('files_dependencies/gestures/labels.txt', 'r')
         except:
             return ('No se ha podido encontrar el archivo labels.txt (se crea al entrenar el modelo)')
 
@@ -22,7 +22,7 @@ def test(image_file):
         CATEGORIES = labels_file.read().split(',')
         class_names = np.array(CATEGORIES)
 
-        IMG_SIZE = 100
+        IMG_SIZE = 150
 
         def prepare(filepath):
             img_array = cv2.imread(filepath,cv2.IMREAD_GRAYSCALE)
@@ -30,7 +30,7 @@ def test(image_file):
             return new_array.reshape(-1, IMG_SIZE, IMG_SIZE, 1)
 
 
-        model = tf.keras.models.load_model("files_dependencies/model/model.h5")
+        model = tf.keras.models.load_model("files_dependencies/gestures/model/model.h5")
 
         #model.summary()
 
@@ -59,10 +59,6 @@ def test(image_file):
     except:
         return ('ERROR: No se ha podido realizar el analisis.')
 
-print(test('files_dependencies/test/hand-1598187_960_720.jpg'))
-#dog.jpg cat 100% - dog 100%
-#dog2.png irreconocible - dog 100%
-#gato2.jpg no se ha reconocido - no se ha reconocido
-#gato.jpg cat 100% - dog 100%
+print(test('files_dependencies/gestures/test/hand-1598187_960_720.jpg'))
 
 
