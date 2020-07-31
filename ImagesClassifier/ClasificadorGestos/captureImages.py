@@ -13,14 +13,14 @@ import os
 import sys
 
 try:
-    label_name = 'Nuevas'
+    label_name = 'Rock-And-Roll'
     num_samples = int(200)
 except:
     print("Arguments missing.")
     print(desc)
     exit(-1)
 
-IMG_SAVE_PATH = 'files_dependencies/images/train'
+IMG_SAVE_PATH = 'files_dependencies/gestures/images/train'
 IMG_CLASS_PATH = os.path.join(IMG_SAVE_PATH, label_name)
 
 start = False

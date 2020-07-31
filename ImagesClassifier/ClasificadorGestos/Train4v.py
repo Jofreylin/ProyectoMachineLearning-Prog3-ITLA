@@ -7,10 +7,10 @@ import numpy as np
 import random
 
 def train():
-    try:
+    #try:
         try:
             # get the data
-            base_dir = 'files_dependencies/images'
+            base_dir = 'files_dependencies/gestures/images'
             train_dir = os.path.join(base_dir, 'train')
             validation_dir = os.path.join(base_dir, 'validation')
         except:
@@ -18,9 +18,9 @@ def train():
 
 
 
-        list_train_dir = os.listdir('files_dependencies/images/train')
+        list_train_dir = os.listdir('files_dependencies/gestures/images/train')
         #print(list_train_dir)
-        list_validation_dir = os.listdir('files_dependencies/images/validation')
+        list_validation_dir = os.listdir('files_dependencies/gestures/images/validation')
         #print(list_validation_dir)
 
         if list_train_dir == list_validation_dir:
@@ -30,16 +30,16 @@ def train():
                     labels_names = list_train_dir[x]
                 else:
                     labels_names = labels_names + ',' + list_train_dir[x]
-            labels_file = open('files_dependencies/labels.txt', 'w')
+            labels_file = open('files_dependencies/gestures/labels.txt', 'w')
             labels_file.write(labels_names)
             labels_file.close()
-            labels_file = open('files_dependencies/labels.txt', 'r')
+            labels_file = open('files_dependencies/gestures/labels.txt', 'r')
             print('Labels creados: ' + str(labels_file.read().split(',')))
         else:
             return ('ERROR: Los nombres carpetas dentro de "train" y "validation" deben ser justamente iguales. EJEMPLO: train/Dog   --  validation/Dog')
 
 
-        labels_file= open('files_dependencies/labels.txt','r')
+        labels_file= open('files_dependencies/gestures/labels.txt','r')
 
         CATEGORIES = []
 
@@ -49,7 +49,7 @@ def train():
 
         training_data = []
         testing_data = []
-        IMG_SIZE = 100
+        IMG_SIZE = 150
 
 
 
@@ -57,12 +57,12 @@ def train():
             u_ = 0
             train_count = []
             train_category = []
-            for category in CATEGORIES:  # do dogs and cats
+            for category in CATEGORIES:  # do 
                 train_category.append(category)
                 train_count.append(0)
-                path = os.path.join(train_dir,category)  # create path to dogs and cats
-                class_num = CATEGORIES.index(category)  # get the classification  (0 or a 1). 0=dog 1=cat
-                for img in tqdm(os.listdir(path)):  # iterate over each image per dogs and cats
+                path = os.path.join(train_dir,category)  # create path 
+                class_num = CATEGORIES.index(category)  # get the classification  
+                for img in tqdm(os.listdir(path)):  # iterate over each image 
                     try:
                         img_array = cv2.imread(os.path.join(path,img) ,cv2.IMREAD_GRAYSCALE)  # convert to array
                         new_array = cv2.resize(img_array, (IMG_SIZE, IMG_SIZE))  # resize to normalize data size
@@ -88,16 +88,16 @@ def train():
             u_ = 0
             testing_count = []
             testing_category = []
-            for category in CATEGORIES:  # do dogs and cats
+            for category in CATEGORIES:  # do 
                 testing_category.append(category)
                 testing_count.append(0)
-                path = os.path.join(validation_dir,category)  # create path to dogs and cats
-                class_num = CATEGORIES.index(category)  # get the classification  (0 or a 1). 0=dog 1=cat
-                for img in tqdm(os.listdir(path)):  # iterate over each image per dogs and cats
+                path = os.path.join(validation_dir,category)  # create path 
+                class_num = CATEGORIES.index(category)  # get the classification  
+                for img in tqdm(os.listdir(path)):  # iterate over each image 
                     try:
                         img_array = cv2.imread(os.path.join(path,img) ,cv2.IMREAD_GRAYSCALE)  # convert to array
                         new_array = cv2.resize(img_array, (IMG_SIZE, IMG_SIZE))  # resize to normalize data size
-                        testing_data.append([new_array, class_num])  # add this to our training_data
+                        testing_data.append([new_array, class_num])  # add this to our testing_data
                         testing_count[u_] += 1
                     except Exception as e:  # in the interest in keeping the output clean...
                         pass
@@ -120,8 +120,9 @@ def train():
         random.shuffle(training_data)
         random.shuffle(testing_data)
 
-        BATCH_SIZE = 32
-        IMG_SHAPE = IMG_SIZE  # square image
+        BATCH_SIZE = 67
+        EPOCHS = 50
+        #IMG_SHAPE = IMG_SIZE  # square image
 
         X = []
         y = []
@@ -131,7 +132,8 @@ def train():
 
         X = np.array(X)#.reshape(-1, IMG_SIZE, IMG_SIZE, 1)
         #X = X/255.0
-
+        #y = np.array(y)
+        y = tf.keras.utils.to_categorical(y)
 
         X_test = []
         y_test = []
@@ -141,16 +143,18 @@ def train():
 
         X_test = np.array(X_test)#.reshape(-1, IMG_SIZE, IMG_SIZE, 1)
         #X_test = X_test/255.0
+        #y_test = np.array(y_test)
+        y_test = tf.keras.utils.to_categorical(y_test)
 
         # show the images
-        plt.figure(figsize=(10,10))
+        '''plt.figure(figsize=(10,10))
         for i in range(9):
             plt.subplot(3,3,i+1)
             plt.xticks([])
             plt.yticks([])
             plt.imshow(X[i], cmap=plt.cm.binary)
             plt.xlabel(class_names[y[i]])
-        #plt.show()
+        plt.show()'''
         # reshaping
         train_images = X.reshape(X.shape[0], IMG_SIZE, IMG_SIZE,1)
         test_images = X_test.reshape(X_test.shape[0], IMG_SIZE, IMG_SIZE,1)
@@ -158,29 +162,50 @@ def train():
         test_labels = np.array(y_test)
         # define the model
         model = tf.keras.models.Sequential([
-            # Note the input shape is the desired size of the image 150x150 with 3 bytes color
+            # Note the input shape is the desired size of the image 150x150 with 1 bytes color
             # This is the first convolution
-            tf.keras.layers.AveragePooling2D(6,3, input_shape=(100,100,1)),
-            tf.keras.layers.Conv2D(64, 3, activation='relu'),
-            tf.keras.layers.Conv2D(32, 3, activation='relu'),
-            tf.keras.layers.MaxPool2D(2,2),
-            tf.keras.layers.Dropout(0.5),
+            tf.keras.layers.Conv2D(64, (3, 3), activation='relu', input_shape=(IMG_SIZE, IMG_SIZE, 1)),
+            tf.keras.layers.MaxPooling2D(2, 2),
+            # The second convolution
+            tf.keras.layers.Conv2D(64, (3, 3), activation='relu'),
+            tf.keras.layers.MaxPooling2D(2, 2),
+            # The third convolution
+            tf.keras.layers.Conv2D(128, (3, 3), activation='relu'),
+            tf.keras.layers.MaxPooling2D(2, 2),
+            # The fourth convolution
+            tf.keras.layers.Conv2D(128, (3, 3), activation='relu'),
+            tf.keras.layers.MaxPooling2D(2, 2),
+            # Flatten the results to feed into a DNN
             tf.keras.layers.Flatten(),
-            tf.keras.layers.Dense(128, activation='relu'),
-            tf.keras.layers.Dense(3, activation='softmax')
+            tf.keras.layers.Dropout(0.5),
+            # 512 neuron hidden layer
+            tf.keras.layers.Dense(512, activation='relu'),
+            tf.keras.layers.Dense(len(class_names), activation='softmax')
                 ])
-        # sample output: [0, 0.1, 0, 0.2, 0.7, 0, 0, 0, 0, 0] --> coat
+        
 
-        model.compile(optimizer='adam', loss="binary_crossentropy",
+        
+
+        tensorboard = tf.keras.callbacks.TensorBoard(
+            log_dir = './files_dependencies/gestures/model/logs',
+            histogram_freq=0,
+            write_graph=True,
+            write_grads=True,
+            write_images=False,
+        )
+
+        callbacks = tensorboard
+
+        model.compile(optimizer='adam', loss="categorical_crossentropy",
                       metrics=['accuracy'])
         # train
-        model.fit(train_images, train_labels, validation_data=(test_images,test_labels), steps_per_epoch=18, epochs=50,batch_size=32)
+        model.fit(train_images, train_labels, validation_split=0.2, epochs=EPOCHS, callbacks=callbacks)
         test_loss, test_acc = model.evaluate(test_images, test_labels, verbose=2)
         print("Test accuracy: ", test_acc)
-        model.save("files_dependencies/model/model.h5")
-        return('Modelo creado exitosamente.')
-    except:
-        return('ERROR: No se ha podido crear el modelo.')
+        model.save("files_dependencies/gestures/model/model.h5")
+        #return('Modelo creado exitosamente.')
+    #except:
+        #return('ERROR: No se ha podido crear el modelo.')
 
 '''labels_file = open('labels.txt', 'r')
 file_image = 'test/dog.jpg'
@@ -250,4 +275,4 @@ for i in range(1):
     #plot_value_array(preds[i])
 plt.show()'''
 
-print(train())
+train()

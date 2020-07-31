@@ -21,6 +21,7 @@ from sklearn.preprocessing import LabelEncoder
 from sklearn.model_selection import GridSearchCV
 from sklearn.model_selection import KFold
 from sklearn.model_selection import train_test_split
+import random
 #import seaborn as sns
 from matplotlib import style
 import matplotlib.pyplot as plt
@@ -66,7 +67,7 @@ class_names = np.array(CATEGORIES)
 
 training_data = []
 testing_data = []
-IMG_SIZE = 90
+IMG_SIZE = 100
 
 def create_training_data():
         u_ = 0
@@ -141,6 +142,9 @@ create_testing_data()
 
 total_train = len(training_data)
 total_val = len(testing_data)
+
+random.shuffle(training_data)
+random.shuffle(testing_data)
 
 #BATCH_SIZE = 32
 IMG_SHAPE = 150  # square image
