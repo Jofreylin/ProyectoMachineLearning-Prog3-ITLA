@@ -2,6 +2,9 @@ import cv2
 import tensorflow as tf
 import numpy as np
 import os
+import base64
+import io
+from imageio import imread
 
 """
 -------------------------
@@ -33,13 +36,9 @@ def test(image_file):
         model = tf.keras.models.load_model("files_dependencies/gestures/model/model.h5")
 
         #model.summary()
-
         #print(class_names)
         images_reshaped = tf.cast(prepare(image_file), tf.float32)
         prediction = model.predict(images_reshaped)
-
-        #print(prediction)
-        #top_k = prediction[0].argsort()[-len(prediction[0]):][::-1]
 
         predicted_label = np.argmax(prediction[0])
         confidence = 100 * np.max(prediction[0])
@@ -47,18 +46,26 @@ def test(image_file):
             return ('No se ha reconocido la imagen.')
         else:
             return ("{} {:2.0f}%".format(class_names[predicted_label],100 * np.max(prediction[0])))
-
-        '''for node_id in top_k:
-            score = prediction[0][node_id]
-            # score = score*100
-            print('(score = %2.0f)' % score*100)
-            print(float(prediction[0][0]))  # will be a list in a list.
-            print(CATEGORIES[int(prediction[0][0])])
-        
-            print(predicted_label)'''
     except:
         return ('ERROR: No se ha podido realizar el analisis.')
 
-print(test('files_dependencies/gestures/test/hand-1598187_960_720.jpg'))
+
+def decodeIt(b64_string):
+    try:
+        #Convierte b64 en un array
+        img = imread(io.BytesIO(base64.b64decode(b64_string)))
+        #Agrega color a la imagen
+        cv2_img = cv2.cvtColor(img, cv2.COLOR_RGB2BGR)
+        #Guarda la imagen
+        cv2.imwrite("files_dependencies/gestures/test/test.jpg", cv2_img)
+        #Retorna el reconocimiento de gesto
+        return test('files_dependencies/gestures/test/test.jpg')
+    except:
+        return('No se pudo decodificar la imagen.')
+
+
+print(test('files_dependencies/gestures/test/test.jpg'))
+
+#print(decodeIt(estoes))
 
 
