@@ -121,7 +121,7 @@ def train():
         random.shuffle(testing_data)
 
         BATCH_SIZE = 67
-        EPOCHS = 50
+        EPOCHS = 70
         #IMG_SHAPE = IMG_SIZE  # square image
 
         X = []
