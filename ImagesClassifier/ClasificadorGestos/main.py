@@ -14,9 +14,9 @@ pip install eel
 eel.init('files_dependencies/web')
 
 @eel.expose
-def gestureRecognition(b64_string):
-    result = TestModel2.decodeIt(b64_string)
-    return result
+def gesture(filepath):
+    ip = TestModel2.test(filepath)
+    return ip
 
 @eel.expose
 def btn_ResimyoluClick():
@@ -26,4 +26,4 @@ def btn_ResimyoluClick():
     folder = filedialog.askopenfilename()
     return folder
 
-eel.start('view/index.html', size=(1000, 600))
+eel.start('view/index.html', size=(1000, 600),mode='edge')
