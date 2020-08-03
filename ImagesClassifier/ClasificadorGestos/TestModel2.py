@@ -12,6 +12,8 @@ INSTALACIONES
 -------------------------
 pip install tensorflow
 pip install opencv-python
+pip install imageio
+pip install numpy
 =========================
 """
 def test(image_file):
@@ -64,7 +66,7 @@ def decodeIt(b64_string):
         return('No se pudo decodificar la imagen.')
 
 
-print(test('files_dependencies/gestures/test/test.jpg'))
+#print(test('files_dependencies/gestures/test/test.jpg'))
 
 #print(decodeIt(estoes))
 
