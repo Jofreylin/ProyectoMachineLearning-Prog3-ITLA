@@ -27,24 +27,24 @@
   <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
     <div class="container">
       <a class="navbar-brand" href="index.html">MARCHINE LEARNING</a>
-      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive"
+        aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
       <div class="collapse navbar-collapse" id="navbarResponsive">
         <ul class="navbar-nav ml-auto">
           <li class="nav-item active">
             <a class="nav-link" href="index.html">Home
+
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="gestos.html">GESTOS
               <span class="sr-only">(current)</span>
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="gestos.html">GESTOS</a>
-          </li>
-          <li class="nav-item">
             <a class="nav-link" href="facial.html">RECONOCIMIENTO FACIAL</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">Contact</a>
           </li>
         </ul>
       </div>
@@ -52,7 +52,8 @@
   </nav>
 
   <!-- Header - set the background image for the header in the line below -->
-  <header class="py-5 bg-image-full" style="background-image: url('https://i.pinimg.com/originals/d2/ba/fc/d2bafcaa69cd97803d61cf697effa420.jpg');">
+  <header class="py-5 bg-image-full"
+    style="background-image: url('https://i.pinimg.com/originals/d2/ba/fc/d2bafcaa69cd97803d61cf697effa420.jpg');">
     <div style="height: 400px;"></div>
 
   </header>
@@ -61,16 +62,32 @@
   <section class="py-5">
     <div class="container">
       <h1>RECONOCIMIENTO DE GESTOS</h1>
-      <p class="lead">el androide.</p>
-      <p>hablamo nunca</p>
+      <hr>
+      <div class="input-group mb-3">
+        <div class="custom-file">
+          <input onchange="previewImage(this)" type="file" class="custom-file-input" id="inputGroupFile01"
+            aria-describedby="inputGroupFileAddon01" accept=".jpg,.png,.jpeg">
+          <label class="custom-file-label" for="inputGroupFile01">Seleccionar imagen</label>
+        </div>
+      </div>
+      <hr>
+      <div>
+        <img id="imageGesto" width="200" height="200">
+      </div>
+      <br>
+      <h5 id="infoGesto">(Este es el gesto): 0%</h5>
+      <h6 id="typeFileHidden" hidden></h1>
+      <h6 id="b64FileHidden" hidden></h6>
+      <hr>
+      <button onclick="recogImage()" type="button" class="btn btn-outline-success btn-block btn-lg">ANALIZAR</button>
     </div>
   </section>
 
   <!-- Image element - set the background image for the header in the line below -->
-  
+
 
   <!-- Content section -->
- 
+
 
   <!-- Footer -->
   <footer class="py-5 bg-dark">
