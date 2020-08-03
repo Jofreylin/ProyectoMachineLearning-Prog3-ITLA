@@ -6,8 +6,20 @@ from tqdm import tqdm
 import numpy as np
 import random
 
+"""
+-------------------------
+INSTALACIONES
+-------------------------
+pip install tensorflow
+pip install opencv-python
+pip install matplotlib
+pip install numpy
+pip install tqdm
+=========================
+"""
+
 def train():
-    #try:
+    try:
         try:
             # get the data
             base_dir = 'files_dependencies/gestures/images'
@@ -203,9 +215,9 @@ def train():
         test_loss, test_acc = model.evaluate(test_images, test_labels, verbose=2)
         print("Test accuracy: ", test_acc)
         model.save("files_dependencies/gestures/model/model.h5")
-        #return('Modelo creado exitosamente.')
-    #except:
-        #return('ERROR: No se ha podido crear el modelo.')
+        return('Modelo creado exitosamente.')
+    except:
+        return('ERROR: No se ha podido crear el modelo.')
 
 '''labels_file = open('labels.txt', 'r')
 file_image = 'test/dog.jpg'
@@ -275,4 +287,4 @@ for i in range(1):
     #plot_value_array(preds[i])
 plt.show()'''
 
-train()
+print(train())
