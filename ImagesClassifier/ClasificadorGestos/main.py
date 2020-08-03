@@ -14,7 +14,7 @@ pip install eel
 eel.init('files_dependencies/web')
 
 @eel.expose
-def dogCat(filepath):
+def gesture(filepath):
     ip = TestModel2.test(filepath)
     return ip
 
