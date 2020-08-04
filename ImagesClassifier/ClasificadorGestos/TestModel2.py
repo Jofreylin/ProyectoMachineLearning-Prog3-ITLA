@@ -44,7 +44,7 @@ def test(image_file):
 
         predicted_label = np.argmax(prediction[0])
         confidence = 100 * np.max(prediction[0])
-        if confidence < 80:
+        if confidence < 50:
             return ('No se ha reconocido la imagen.')
         else:
             return ("{} {:2.0f}%".format(class_names[predicted_label],100 * np.max(prediction[0])))
