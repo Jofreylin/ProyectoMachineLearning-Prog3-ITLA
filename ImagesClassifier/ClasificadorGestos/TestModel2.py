@@ -37,7 +37,7 @@ def test(image_file):
 
         model = tf.keras.models.load_model("files_dependencies/gestures/model/model.h5")
 
-        model.summary()
+        #model.summary()
         #print(class_names)
         images_reshaped = tf.cast(prepare(image_file), tf.float32)
         prediction = model.predict(images_reshaped)
@@ -53,7 +53,7 @@ def test(image_file):
 
 
 def decodeIt(b64_string):
-    #try:
+    try:
         #Convierte b64 en un array
         img = imread(io.BytesIO(base64.b64decode(b64_string)))
         #Agrega color a la imagen
@@ -62,8 +62,8 @@ def decodeIt(b64_string):
         cv2.imwrite("files_dependencies/gestures/test/test.jpg", cv2_img)
         #Retorna el reconocimiento de gesto
         return test('files_dependencies/gestures/test/test.jpg')
-    #except:
-        #return('No se pudo decodificar la imagen.')
+    except:
+        return('No se pudo decodificar la imagen.')
 
 
 #print(test('files_dependencies/gestures/test/test.jpg'))
