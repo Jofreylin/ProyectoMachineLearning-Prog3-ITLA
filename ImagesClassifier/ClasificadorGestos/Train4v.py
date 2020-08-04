@@ -19,7 +19,7 @@ pip install tqdm
 """
 
 def train():
-    #try:
+    try:
         try:
             # get the data
             base_dir = 'files_dependencies/gestures/images'
@@ -133,7 +133,7 @@ def train():
         random.shuffle(testing_data)
 
         BATCH_SIZE = 128
-        EPOCHS = 15
+        EPOCHS = 30
         #IMG_SHAPE = IMG_SIZE  # square image
 
         X = []
@@ -215,9 +215,9 @@ def train():
         test_loss, test_acc = model.evaluate(test_images, test_labels, verbose=2)
         print("Test accuracy: ", test_acc)
         model.save("files_dependencies/gestures/model/model.h5")
-        #return('Modelo creado exitosamente.')
-    #except:
-        #return('ERROR: No se ha podido crear el modelo.')
+        return('Modelo creado exitosamente.')
+    except:
+        return('ERROR: No se ha podido crear el modelo.')
 
 '''labels_file = open('labels.txt', 'r')
 file_image = 'test/dog.jpg'
