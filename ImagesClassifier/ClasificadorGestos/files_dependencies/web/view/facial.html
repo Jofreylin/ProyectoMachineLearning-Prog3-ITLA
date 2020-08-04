@@ -8,7 +8,7 @@
   <meta name="description" content="">
   <meta name="author" content="">
 
-  <title>RECONOCIMIENTO DE GESTOS</title>
+  <title>RECONOCIMIENTO FACIAL</title>
 
   <!-- Bootstrap core CSS -->
   <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -16,6 +16,8 @@
   <!-- Custom styles for this template -->
   <link href="css/full-width-pics.css" rel="stylesheet">
 
+  <script type="text/javascript" src="/eel.js"></script>
+  <script type="text/javascript" src="../controller/main.js"></script>
 </head>
 
 <body>
@@ -31,17 +33,16 @@
         <ul class="navbar-nav ml-auto">
           <li class="nav-item active">
             <a class="nav-link" href="index.html">Home
-              <span class="sr-only">(current)</span>
+              
             </a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="gestos.html">GESTOS</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="facial.html">RECONOCIMIENTO FACIAL</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">Contact</a>
+            <a class="nav-link" href="facial.html">RECONOCIMIENTO FACIAL
+              <span class="sr-only">(current)</span>
+            </a>
           </li>
         </ul>
       </div>
@@ -58,11 +59,44 @@
   <section class="py-5">
     <div class="container">
       <h1>RECONOCIMIENTO FACIAL</h1>
-      <p class="lead">Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
-      <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquid, suscipit, rerum quos facilis repellat architecto commodi officia atque nemo facere eum non illo voluptatem quae delectus odit vel itaque amet.</p>
-    </div>
-  </section>
+ <!-- LIVE ACTION section -->
+      <hr>
+     <H2>PRUEBA CON TU CAMARA AQUI</H2>
+      <button type="button" class="btn btn-success">REGISTRAR ROSTRO</button>
+      <hr>
+       <!-- LIVE ACTION END -->
+       <H1>O TAMBIEN PUEDES SUBIR UNA FOTO </H1>
+       <!-- SUBIR FOTO section -->
+      
+      <div class="input-group mb-3">
+        <div class="custom-file">
 
+          <input onchange="previewImage(this)" type="file" class="custom-file-input" id="inputGroupFile01"
+            aria-describedby="inputGroupFileAddon01" accept=".jpg,.png,.jpeg">
+          <label class="custom-file-label" for="inputGroupFile01">Seleccionar imagen</label>
+        </div>
+      </div>
+      
+
+
+
+
+      <hr>
+
+    <div>
+      <img id="imageGesto" width="200" height="200">
+    </div>
+    <br>
+    <h5 id="infoGesto">(Este es el ROSTRO): 0%</h5>
+    <h6 id="typeFileHidden" hidden></h1>
+    <h6 id="b64FileHidden" hidden></h6>
+    <hr>
+    <button onclick="recogImage()" type="button" class="btn btn-outline-success btn-block btn-lg">ANALIZAR ROSTRO</button>
+    </div>
+    
+  </div>
+  </section>
+  
 
 
   <!-- Footer -->
