@@ -145,7 +145,7 @@ def train():
         X = np.array(X)#.reshape(-1, IMG_SIZE, IMG_SIZE, 1)
         #X = X/255.0
         #y = np.array(y)
-        y = tf.keras.utils.to_categorical(y)
+        y = tf.keras.utils.to_categorical(y,num_classes=len(class_names))
 
         X_test = []
         y_test = []
@@ -156,7 +156,7 @@ def train():
         X_test = np.array(X_test)#.reshape(-1, IMG_SIZE, IMG_SIZE, 1)
         #X_test = X_test/255.0
         #y_test = np.array(y_test)
-        y_test = tf.keras.utils.to_categorical(y_test)
+        y_test = tf.keras.utils.to_categorical(y_test,num_classes=len(class_names))
 
         # show the images
         '''plt.figure(figsize=(10,10))
@@ -192,7 +192,7 @@ def train():
             tf.keras.layers.Dropout(0.5),
             # 512 neuron hidden layer
             tf.keras.layers.Dense(512, activation='relu'),
-            tf.keras.layers.Dense(4, activation='softmax')
+            tf.keras.layers.Dense(len(class_names), activation='softmax')
                 ])
         
 
@@ -214,7 +214,7 @@ def train():
         model.fit(train_images, train_labels, validation_split=0.3, batch_size=BATCH_SIZE, epochs=EPOCHS, callbacks=callbacks)
         test_loss, test_acc = model.evaluate(test_images, test_labels, verbose=2)
         print("Test accuracy: ", test_acc)
-        model.save("files_dependencies/gestures/model/model.h5")
+        model.save("files_dependencies/gestures/model/model2.h5")
         return('Modelo creado exitosamente.')
     except:
         return('ERROR: No se ha podido crear el modelo.')
