@@ -37,7 +37,7 @@ def test(image_file):
 
         model = tf.keras.models.load_model("files_dependencies/gestures/model/model.h5")
 
-        #model.summary()
+        model.summary()
         #print(class_names)
         images_reshaped = tf.cast(prepare(image_file), tf.float32)
         prediction = model.predict(images_reshaped)

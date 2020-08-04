@@ -19,7 +19,7 @@ pip install tqdm
 """
 
 def train():
-    try:
+    #try:
         try:
             # get the data
             base_dir = 'files_dependencies/gestures/images'
@@ -132,8 +132,8 @@ def train():
         random.shuffle(training_data)
         random.shuffle(testing_data)
 
-        BATCH_SIZE = 67
-        EPOCHS = 70
+        BATCH_SIZE = 128
+        EPOCHS = 15
         #IMG_SHAPE = IMG_SIZE  # square image
 
         X = []
@@ -176,23 +176,23 @@ def train():
         model = tf.keras.models.Sequential([
             # Note the input shape is the desired size of the image 150x150 with 1 bytes color
             # This is the first convolution
-            tf.keras.layers.Conv2D(64, (3, 3), activation='relu', input_shape=(IMG_SIZE, IMG_SIZE, 1)),
+            tf.keras.layers.Conv2D(32, (5, 5), activation='relu', input_shape=(IMG_SIZE, IMG_SIZE, 1)),
             tf.keras.layers.MaxPooling2D(2, 2),
             # The second convolution
             tf.keras.layers.Conv2D(64, (3, 3), activation='relu'),
             tf.keras.layers.MaxPooling2D(2, 2),
             # The third convolution
-            tf.keras.layers.Conv2D(128, (3, 3), activation='relu'),
+            tf.keras.layers.Conv2D(96, (3, 3), activation='relu'),
             tf.keras.layers.MaxPooling2D(2, 2),
             # The fourth convolution
-            tf.keras.layers.Conv2D(128, (3, 3), activation='relu'),
+            tf.keras.layers.Conv2D(96, (3, 3), activation='relu'),
             tf.keras.layers.MaxPooling2D(2, 2),
             # Flatten the results to feed into a DNN
             tf.keras.layers.Flatten(),
             tf.keras.layers.Dropout(0.5),
             # 512 neuron hidden layer
             tf.keras.layers.Dense(512, activation='relu'),
-            tf.keras.layers.Dense(len(class_names), activation='softmax')
+            tf.keras.layers.Dense(4, activation='softmax')
                 ])
         
 
@@ -211,13 +211,13 @@ def train():
         model.compile(optimizer='adam', loss="categorical_crossentropy",
                       metrics=['accuracy'])
         # train
-        model.fit(train_images, train_labels, validation_split=0.2, epochs=EPOCHS, callbacks=callbacks)
+        model.fit(train_images, train_labels, validation_split=0.3, batch_size=BATCH_SIZE, epochs=EPOCHS, callbacks=callbacks)
         test_loss, test_acc = model.evaluate(test_images, test_labels, verbose=2)
         print("Test accuracy: ", test_acc)
         model.save("files_dependencies/gestures/model/model.h5")
-        return('Modelo creado exitosamente.')
-    except:
-        return('ERROR: No se ha podido crear el modelo.')
+        #return('Modelo creado exitosamente.')
+    #except:
+        #return('ERROR: No se ha podido crear el modelo.')
 
 '''labels_file = open('labels.txt', 'r')
 file_image = 'test/dog.jpg'
