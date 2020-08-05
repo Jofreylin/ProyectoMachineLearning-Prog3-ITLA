@@ -225,7 +225,7 @@ def train():
         model.add(Dense(len(class_names), activation = "softmax"))
 
         batch_size=128
-        epochs=10
+        epochs=45
 
         checkpoint = ModelCheckpoint(
             './files_dependencies/gestures/model/base.model/modelBase.h5',
