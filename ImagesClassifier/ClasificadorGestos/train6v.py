@@ -5,7 +5,6 @@ warnings.filterwarnings('ignore')
 
 # data visualisation and manipulation
 import numpy as np
-import pandas as pd
 import matplotlib.pyplot as plt
 from matplotlib import style
  
@@ -48,7 +47,7 @@ from zipfile import ZipFile
 from PIL import Image
 
 def train():
-    try:
+    #try:
         try:
             # get the data
             base_dir = 'files_dependencies/gestures/images'
@@ -229,7 +228,7 @@ def train():
         epochs=10
 
         checkpoint = ModelCheckpoint(
-            './files_dependencies/gestures/model/base.model',
+            './files_dependencies/gestures/model/base.model/modelBase.h5',
             monitor='val_loss',
             verbose=1,
             save_best_only=True,
@@ -277,8 +276,9 @@ def train():
 
         test_loss, test_acc = model.evaluate(x_test, y_test, verbose=2)
 
-        model.save("files_dependencies/model/model.h5")
+        #model.save("files_dependencies/model/modelSaved.h5")
         return('Modelo creado exitosamente.')
-    except:
-        return('ERROR: No se ha podido crear el modelo.')
+    #except:
+        #return('ERROR: No se ha podido crear el modelo.')
 
+print(train())
