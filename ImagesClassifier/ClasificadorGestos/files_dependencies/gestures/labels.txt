@@ -1,1 +1,1 @@
-Lider,OK,Palma,Pulgar,Puno
+Lider,OK,Palma,Puno

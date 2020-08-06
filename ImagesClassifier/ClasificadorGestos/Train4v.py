@@ -202,6 +202,7 @@ def train():
         tensorboard = tf.keras.callbacks.TensorBoard(
             log_dir = './files_dependencies/gestures/model/logs',
             histogram_freq=0,
+            batch_size=16,
             write_graph=True,
             write_grads=True,
             write_images=False,
