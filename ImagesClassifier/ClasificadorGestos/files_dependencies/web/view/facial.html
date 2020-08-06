@@ -26,14 +26,15 @@
   <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
     <div class="container">
       <a class="navbar-brand" href="index.html">MARCHINE LEARNING</a>
-      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive"
+        aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
       <div class="collapse navbar-collapse" id="navbarResponsive">
         <ul class="navbar-nav ml-auto">
           <li class="nav-item active">
             <a class="nav-link" href="index.html">Home
-              
+
             </a>
           </li>
           <li class="nav-item">
@@ -49,8 +50,9 @@
     </div>
   </nav>
 
-   <!-- Image element - set the background image for the header in the line below -->
-   <div class="py-5 bg-image-full" style="background-image: url('https://www.lapatilla.com/wp-content/uploads/2020/06/1-17.jpg');">
+  <!-- Image element - set the background image for the header in the line below -->
+  <div class="py-5 bg-image-full"
+    style="background-image: url('https://www.lapatilla.com/wp-content/uploads/2020/06/1-17.jpg');">
     <!-- Put anything you want here! There is just a spacer below for demo purposes! -->
     <div style="height: 400px;"></div>
   </div>
@@ -59,44 +61,97 @@
   <section class="py-5">
     <div class="container">
       <h1>RECONOCIMIENTO FACIAL</h1>
- <!-- LIVE ACTION section -->
+      <!-- LIVE ACTION section -->
       <hr>
-     <H2>PRUEBA CON TU CAMARA AQUI</H2>
-      <button type="button" class="btn btn-success">REGISTRAR ROSTRO</button>
-      <hr>
-       <!-- LIVE ACTION END -->
-       <H1>O TAMBIEN PUEDES SUBIR UNA FOTO </H1>
-       <!-- SUBIR FOTO section -->
-      
-      <div class="input-group mb-3">
-        <div class="custom-file">
+      <select id="seleccionOption" class="custom-select" onchange="seleccionar(this)">
+        <option selected>Que deseas hacer?</option>
+        <option value="1">Registrar un rostro</option>
+        <option value="2">Identificar rostro mediante imagen</option>
+        <option value="3">Identificar rostro mediante WebCam</option>
+      </select>
 
-          <input onchange="previewImage(this)" type="file" class="custom-file-input" id="inputGroupFile01"
-            aria-describedby="inputGroupFileAddon01" accept=".jpg,.png,.jpeg">
-          <label class="custom-file-label" for="inputGroupFile01">Seleccionar imagen</label>
+      <div id="registrar" hidden>
+        <hr>
+        <br>
+        <H2>REGISTRA TU ROSTRO</H2>
+        <hr>
+        <div class="input-group mb-3">
+          <div class="input-group mb-3 col-8">
+            <div class="input-group-prepend">
+              <span class="input-group-text" id="inputGroup-sizing-default">Nombre del rostro</span>
+            </div>
+            <input id="inputVerificar" type="text" class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default">
+          </div>
+          <div class="mb-3 col-12">
+            <button id="btnVerificar"  onclick="verificarRostro(this)" type="button" class="btn btn-success">VERIFICAR / AGREGAR</button>
+          </div>
         </div>
+        <br>
+        <h6 class="text-success" id="infoFaceR"></h6>
+        <br>
+        <h5 hidden id="textoAdvertencia" class="text-warning">Para registrar las imagenes, es necesario tener una WebCam. Se tomaran 100 imagenes</h5>
+        <div class="d-flex justify-content-center">
+          <div class="spinner-border text-success" role="status" id="progressSpinnerR" hidden>
+            <span class="sr-only">Loading...</span>
+          </div>
+        </div>
+        <button id="btnUpload" onclick="uploadFace(this)" type="button" class="btn btn-outline-warning btn-block btn-lg" hidden>SUBIR ROSTRO</button>
+        <button id="btnRegistrar" onclick="registrarFace(this)" type="button" class="btn btn-outline-success btn-block btn-lg">REGISTRAR ROSTRO / ENTRENAR MAQUINA</button>
       </div>
-      
 
+      <div id="identificarImagen" hidden>
+        <hr>
+        <br>
+        <H2>PRUEBA CON TU IMAGEN</H2>
+        <div class="input-group mb-3">
+          <div class="custom-file">
+            <input id="buscadorImagenFace" onchange="previewImage(this,'infoFace','Rostros detectados: ()')" type="file" class="custom-file-input" id="inputGroupFile01"
+              aria-describedby="inputGroupFileAddon01" accept=".jpg,.png,.jpeg">
+            <label class="custom-file-label" for="inputGroupFile01">Seleccionar imagen</label>
+          </div>
+        </div>
+        <hr>
+        <div class="row">
+          <div class="col-6">
+            <img id="imagePreviewed"  height="450">
+          </div>
+          <div class="col-6">
+            <img id="imageRecognized" height="450">
+          </div>
+        </div>
+        <br>
+        <div class="d-flex justify-content-center">
+          <div class="spinner-border text-success" role="status" id="progressSpinner" hidden>
+            <span class="sr-only">Loading...</span>
+          </div>
+        </div>
+        <br>
+        <h5 id="infoFace">Rostros detectados: ()</h5>
+        <h6 id="typeFileHidden" hidden></h6>
+        <h6 id="b64FileHidden" hidden></h6>
+        <hr>
+        <button id="analizarImagenFace" onclick="recogImageFace()" type="button" class="btn btn-outline-success btn-block btn-lg">ANALIZAR
+            ROSTRO</button>
+      </div>
 
-
-
+      <div id="identificarWebCam" hidden>
+        <hr>
+        <br>
+        <H2>PRUEBA CON TU CAMARA</H2>
+        <br>
+        <div class="d-flex justify-content-center">
+          <div class="spinner-border text-success" role="status" id="progressSpinnerW" hidden>
+            <span class="sr-only">Loading...</span>
+          </div>
+        </div>
+        <hr>
+        <button onclick="recogImageFaceWebCam(this)" type="button" class="btn btn-outline-success btn-block btn-lg">ANALIZAR
+          ROSTRO</button>
+      </div>
       <hr>
-
-    <div>
-      <img id="imageGesto" width="200" height="200">
     </div>
-    <br>
-    <h5 id="infoGesto">(Este es el ROSTRO): 0%</h5>
-    <h6 id="typeFileHidden" hidden></h1>
-    <h6 id="b64FileHidden" hidden></h6>
-    <hr>
-    <button onclick="recogImage()" type="button" class="btn btn-outline-success btn-block btn-lg">ANALIZAR ROSTRO</button>
-    </div>
-    
-  </div>
   </section>
-  
+
 
 
   <!-- Footer -->
