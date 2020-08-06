@@ -1,1 +1,1 @@
-Lider,OK,Palma,Pulgar,Puño
+Lider,OK,Palma,Puño
