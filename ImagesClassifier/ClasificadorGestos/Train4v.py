@@ -19,7 +19,7 @@ pip install tqdm
 """
 
 def train():
-    try:
+    #try:
         try:
             # get the data
             base_dir = 'files_dependencies/gestures/images'
@@ -133,7 +133,7 @@ def train():
         random.shuffle(testing_data)
 
         BATCH_SIZE = 128
-        EPOCHS = 15
+        EPOCHS = 11
         #IMG_SHAPE = IMG_SIZE  # square image
 
         X = []
@@ -145,6 +145,7 @@ def train():
         X = np.array(X)#.reshape(-1, IMG_SIZE, IMG_SIZE, 1)
         #X = X/255.0
         #y = np.array(y)
+        OTHER_Y = np.array(y)
         y = tf.keras.utils.to_categorical(y,num_classes=len(class_names))
 
         X_test = []
@@ -159,14 +160,14 @@ def train():
         y_test = tf.keras.utils.to_categorical(y_test,num_classes=len(class_names))
 
         # show the images
-        '''plt.figure(figsize=(10,10))
+        plt.figure(figsize=(10,10))
         for i in range(9):
             plt.subplot(3,3,i+1)
             plt.xticks([])
             plt.yticks([])
             plt.imshow(X[i], cmap=plt.cm.binary)
-            plt.xlabel(class_names[y[i]])
-        plt.show()'''
+            plt.xlabel(class_names[OTHER_Y[i]])
+        #plt.show()
         # reshaping
         train_images = X.reshape(X.shape[0], IMG_SIZE, IMG_SIZE,1)
         test_images = X_test.reshape(X_test.shape[0], IMG_SIZE, IMG_SIZE,1)
@@ -214,10 +215,10 @@ def train():
         model.fit(train_images, train_labels, validation_split=0.25, batch_size=BATCH_SIZE, epochs=EPOCHS, callbacks=callbacks)
         test_loss, test_acc = model.evaluate(test_images, test_labels, verbose=2)
         print("Test accuracy: ", test_acc)
-        model.save("files_dependencies/gestures/model/model5.h5")
+        model.save("files_dependencies/gestures/model/model.h5")
         return('Modelo creado exitosamente.')
-    except:
-        return('ERROR: No se ha podido crear el modelo.')
+    #except:
+        #return('ERROR: No se ha podido crear el modelo.')
 
 '''labels_file = open('labels.txt', 'r')
 file_image = 'test/dog.jpg'
