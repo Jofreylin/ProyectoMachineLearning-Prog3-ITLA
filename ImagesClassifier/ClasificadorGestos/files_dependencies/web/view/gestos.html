@@ -65,14 +65,14 @@
       <hr>
       <div class="input-group mb-3">
         <div class="custom-file">
-          <input id="buscadorImagenes" onchange="previewImage(this)" type="file" class="custom-file-input" id="inputGroupFile01"
+          <input id="buscadorImagenes" onchange="previewImage(this,'infoGesto','(Este es el GESTO): 0%')" type="file" class="custom-file-input" id="inputGroupFile01"
             aria-describedby="inputGroupFileAddon01" accept=".jpg,.png,.jpeg">
           <label class="custom-file-label" for="inputGroupFile01">Seleccionar imagen</label>
         </div>
       </div>
       <hr>
       <div>
-        <img id="imageGesto" width="200" height="200">
+        <img id="imagePreviewed" width="200" height="200">
       </div>
       <br>
       <div class="progress">
@@ -83,7 +83,7 @@
       <h6 id="typeFileHidden" hidden></h1>
       <h6 id="b64FileHidden" hidden></h6>
       <hr>
-      <button id="analizarImagen" onclick="recogImage()" type="button" class="btn btn-outline-success btn-block btn-lg">ANALIZAR</button>
+      <button id="analizarImagen" onclick="recogImageGesture()" type="button" class="btn btn-outline-success btn-block btn-lg">ANALIZAR</button>
     </div>
   </section>
 
