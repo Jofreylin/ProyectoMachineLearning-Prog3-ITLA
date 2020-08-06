@@ -132,8 +132,8 @@ def train():
         random.shuffle(training_data)
         random.shuffle(testing_data)
 
-        BATCH_SIZE = 128
-        EPOCHS = 25
+        BATCH_SIZE = 64
+        EPOCHS = 12
         #IMG_SHAPE = IMG_SIZE  # square image
 
         X = []
@@ -177,16 +177,16 @@ def train():
         model = tf.keras.models.Sequential([
             # Note the input shape is the desired size of the image 150x150 with 1 bytes color
             # This is the first convolution
-            tf.keras.layers.Conv2D(32, (3, 3), activation='relu', input_shape=(IMG_SIZE, IMG_SIZE, 1)),
+            tf.keras.layers.Conv2D(64, (3, 3), activation='relu', input_shape=(IMG_SIZE, IMG_SIZE, 1)),
             tf.keras.layers.MaxPooling2D(2, 2),
             # The second convolution
             tf.keras.layers.Conv2D(64, (3, 3), activation='relu'),
             tf.keras.layers.MaxPooling2D(2, 2),
             # The third convolution
-            tf.keras.layers.Conv2D(96, (3, 3), activation='relu'),
+            tf.keras.layers.Conv2D(128, (3, 3), activation='relu'),
             tf.keras.layers.MaxPooling2D(2, 2),
             # The fourth convolution
-            tf.keras.layers.Conv2D(96, (3, 3), activation='relu'),
+            tf.keras.layers.Conv2D(128, (3, 3), activation='relu'),
             tf.keras.layers.MaxPooling2D(2, 2),
             # Flatten the results to feed into a DNN
             tf.keras.layers.Flatten(),
@@ -213,10 +213,10 @@ def train():
         model.compile(optimizer='adam', loss="categorical_crossentropy",
                       metrics=['accuracy'])
         # train
-        model.fit(train_images, train_labels, validation_split=0.25, batch_size=BATCH_SIZE, epochs=EPOCHS, callbacks=callbacks)
+        model.fit(train_images, train_labels, validation_split=0.3, batch_size=BATCH_SIZE, epochs=EPOCHS, callbacks=callbacks)
         test_loss, test_acc = model.evaluate(test_images, test_labels, verbose=2)
         print("Test accuracy: ", test_acc)
-        model.save("files_dependencies/gestures/model/model.h5")
+        model.save("files_dependencies/gestures/model/model2.h5")
         return('Modelo creado exitosamente.')
     #except:
         #return('ERROR: No se ha podido crear el modelo.')
