@@ -133,7 +133,7 @@ def train():
         random.shuffle(testing_data)
 
         BATCH_SIZE = 128
-        EPOCHS = 11
+        EPOCHS = 20
         #IMG_SHAPE = IMG_SIZE  # square image
 
         X = []
@@ -167,7 +167,7 @@ def train():
             plt.yticks([])
             plt.imshow(X[i], cmap=plt.cm.binary)
             plt.xlabel(class_names[OTHER_Y[i]])
-        #plt.show()
+        plt.show()
         # reshaping
         train_images = X.reshape(X.shape[0], IMG_SIZE, IMG_SIZE,1)
         test_images = X_test.reshape(X_test.shape[0], IMG_SIZE, IMG_SIZE,1)
@@ -177,16 +177,16 @@ def train():
         model = tf.keras.models.Sequential([
             # Note the input shape is the desired size of the image 150x150 with 1 bytes color
             # This is the first convolution
-            tf.keras.layers.Conv2D(64, (3, 3), activation='relu', input_shape=(IMG_SIZE, IMG_SIZE, 1)),
+            tf.keras.layers.Conv2D(32, (3, 3), activation='relu', input_shape=(IMG_SIZE, IMG_SIZE, 1)),
             tf.keras.layers.MaxPooling2D(2, 2),
             # The second convolution
             tf.keras.layers.Conv2D(64, (3, 3), activation='relu'),
             tf.keras.layers.MaxPooling2D(2, 2),
             # The third convolution
-            tf.keras.layers.Conv2D(128, (3, 3), activation='relu'),
+            tf.keras.layers.Conv2D(96, (3, 3), activation='relu'),
             tf.keras.layers.MaxPooling2D(2, 2),
             # The fourth convolution
-            tf.keras.layers.Conv2D(128, (3, 3), activation='relu'),
+            tf.keras.layers.Conv2D(96, (3, 3), activation='relu'),
             tf.keras.layers.MaxPooling2D(2, 2),
             # Flatten the results to feed into a DNN
             tf.keras.layers.Flatten(),
