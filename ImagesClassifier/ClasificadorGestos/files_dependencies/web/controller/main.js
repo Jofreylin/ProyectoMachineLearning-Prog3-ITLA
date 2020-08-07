@@ -9,17 +9,14 @@ function setImage(base64) {
 }
 
 async function recogImageGesture(){
-	var selectt = document.getElementById("seleccionOption")
-	selectt.disabled = true
+	
 	var buscador = document.getElementById("buscadorImagenes")
 	var boton = document.getElementById("analizarImagen")
-	var barra = document.getElementById("progressBarGestos")
+	var spinner = document.getElementById("progressSpinnerG")
 	
 	buscador.disabled = true
 	boton.disabled = true
-	barra.hidden = false;
-	barra.innerHTML="0%"
-	barra.style.width = "0%"
+	spinner.hidden = false
 
 	var info = "(Este es el GESTO): 0%"
 	document.getElementById("infoGesto").innerHTML = info
@@ -36,9 +33,7 @@ async function recogImageGesture(){
 			document.getElementById("infoGesto").innerHTML = info
 			buscador.disabled = false
 			boton.disabled = false
-			barra.style.width = "100%"
-			barra.innerHTML="100%"
-			selectt.disabled = false
+			spinner.hidden = true
 			/*eel.getGesture(data)(
 				function(ret){
 					var info = data

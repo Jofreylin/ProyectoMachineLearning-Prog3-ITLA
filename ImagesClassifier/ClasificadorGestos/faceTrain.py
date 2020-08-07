@@ -70,4 +70,4 @@ def train():
         return('No se pudo entrenar el modelo.')
     
 
-print(train())
+#print(train())
