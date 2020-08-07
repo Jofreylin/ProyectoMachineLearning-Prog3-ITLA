@@ -3,7 +3,7 @@ import os # For handling directories
 from PIL import Image # For handling the images
 import matplotlib.pyplot as plt
 import matplotlib.image as mpimg # Plotting
-from random import randint
+import random
 import keras
 from keras.utils import to_categorical
 from sklearn.model_selection import train_test_split
@@ -83,7 +83,7 @@ def train():
         create_training_data()
 
         total_train = len(training_data)
-        
+        random.shuffle(training_data)
 
         x_data = []
         y_data = []
@@ -116,11 +116,11 @@ def train():
         model.compile(optimizer='adam',
                     loss='categorical_crossentropy',
                     metrics=['accuracy'])
-        model.fit(x_train, y_train, epochs=20, batch_size=64, verbose=1, validation_data=(x_validate, y_validate))
+        model.fit(x_train, y_train, epochs=50, batch_size=64, verbose=1, validation_data=(x_validate, y_validate))
 
         [loss, acc] = model.evaluate(x_test,y_test,verbose=1)
         print("Accuracy:" + str(acc))
 
-        model.save("files_dependencies/gestures/model/model4.h5")
+        model.save("files_dependencies/gestures/model/model5.h5")
 
 train()
