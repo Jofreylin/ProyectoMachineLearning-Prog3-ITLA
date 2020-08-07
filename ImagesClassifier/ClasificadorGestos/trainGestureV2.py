@@ -161,7 +161,7 @@ def train():
         model.compile(optimizer='adam',
                     loss='categorical_crossentropy',
                     metrics=['accuracy'])
-        model.fit(x_train, y_train, epochs=25, batch_size=128, verbose=1, validation_data=(x_validate, y_validate))
+        model.fit(x_train, y_train, epochs=30, batch_size=128, verbose=1, validation_data=(x_validate, y_validate))
 
         [loss, acc] = model.evaluate(x_test,y_test,verbose=1)
         print("Accuracy:" + str(acc))
