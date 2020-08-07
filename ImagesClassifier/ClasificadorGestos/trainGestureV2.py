@@ -166,6 +166,6 @@ def train():
         [loss, acc] = model.evaluate(x_test,y_test,verbose=1)
         print("Accuracy:" + str(acc))
 
-        model.save("files_dependencies/gestures/model/model7.h5")
+        model.save("files_dependencies/gestures/model/model9.h5")
 
 train()
