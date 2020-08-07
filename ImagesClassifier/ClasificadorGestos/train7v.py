@@ -66,7 +66,7 @@ def train():
                 for img in tqdm(os.listdir(path)):  # iterate over each image 
                     try:
                         img_array = cv2.imread(os.path.join(path,img) ,cv2.IMREAD_GRAYSCALE)  # convert to array
-                        new_array = cv2.resize(img_array, (120, 320))  # resize to normalize data size
+                        new_array = cv2.resize(img_array, (IMG_SIZE, IMG_SIZE))  # resize to normalize data size
                         training_data.append([new_array, class_num])  # add this to our training_data
                         train_count[u_] += 1
                     except Exception as e:  # in the interest in keeping the output clean...
@@ -96,14 +96,14 @@ def train():
         
         y_data = to_categorical(y_data)
 
-        x_data = x_data.reshape((datacount, 120, 320, 1))
+        x_data = x_data.reshape((datacount, IMG_SIZE, IMG_SIZE, 1))
         x_data = x_data/255
         x_train,x_further,y_train,y_further = train_test_split(x_data,y_data,test_size = 0.2)
         x_validate,x_test,y_validate,y_test = train_test_split(x_further,y_further,test_size = 0.5)
 
 
         model=models.Sequential()
-        model.add(layers.Conv2D(32, (5, 5), strides=(2, 2), activation='relu', input_shape=(120, 320,1))) 
+        model.add(layers.Conv2D(32, (5, 5), strides=(2, 2), activation='relu', input_shape=(IMG_SIZE, IMG_SIZE,1))) 
         model.add(layers.MaxPooling2D((2, 2)))
         model.add(layers.Conv2D(64, (3, 3), activation='relu')) 
         model.add(layers.MaxPooling2D((2, 2)))
@@ -121,6 +121,6 @@ def train():
         [loss, acc] = model.evaluate(x_test,y_test,verbose=1)
         print("Accuracy:" + str(acc))
 
-        model.save("files_dependencies/gestures/model/model5.h5")
+        model.save("files_dependencies/gestures/model/model3.h5")
 
 train()
