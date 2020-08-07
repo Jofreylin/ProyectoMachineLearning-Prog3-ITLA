@@ -98,7 +98,7 @@ def train():
 
         x_data = x_data.reshape((datacount, IMG_SIZE, IMG_SIZE, 1))
         x_data = x_data/255
-        x_train,x_further,y_train,y_further = train_test_split(x_data,y_data,test_size = 0.3)
+        x_train,x_further,y_train,y_further = train_test_split(x_data,y_data,test_size = 0.2)
         x_validate,x_test,y_validate,y_test = train_test_split(x_further,y_further,test_size = 0.5)
 
         data_augmentation = keras.Sequential(
@@ -129,6 +129,7 @@ def train():
             # This is the first convolution
             data_augmentation,
             tf.keras.layers.Conv2D(64, (3,3), activation='relu'),
+            #,input_shape=(IMG_SIZE,IMG_SIZE,1)
             tf.keras.layers.MaxPooling2D(2, 2),
             # The second convolution
             tf.keras.layers.Conv2D(64, (3,3), activation='relu'),
@@ -160,11 +161,11 @@ def train():
         model.compile(optimizer='adam',
                     loss='categorical_crossentropy',
                     metrics=['accuracy'])
-        model.fit(x_train, y_train, epochs=20, batch_size=128, verbose=1, validation_data=(x_validate, y_validate))
+        model.fit(x_train, y_train, epochs=25, batch_size=128, verbose=1, validation_data=(x_validate, y_validate))
 
         [loss, acc] = model.evaluate(x_test,y_test,verbose=1)
         print("Accuracy:" + str(acc))
 
-        model.save("files_dependencies/gestures/model/model6.h5")
+        model.save("files_dependencies/gestures/model/model7.h5")
 
 train()
