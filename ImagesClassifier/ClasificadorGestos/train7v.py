@@ -1,176 +1,117 @@
-# Ignore  the warnings
-import warnings
-warnings.filterwarnings('always')
-warnings.filterwarnings('ignore')
-
-# data visualisation and manipulation
-import numpy as np
-import pandas as pd
+import numpy as np # We'll be storing our data as numpy arrays
+import os # For handling directories
+from PIL import Image # For handling the images
 import matplotlib.pyplot as plt
-from matplotlib import style
- 
-#configure
-# sets matplotlib to inline and displays graphs below the corressponding cell.
-
-style.use('fivethirtyeight')
-
-#model selection
-from sklearn.model_selection import train_test_split
-from sklearn.model_selection import KFold
-from sklearn.metrics import accuracy_score,precision_score,recall_score,confusion_matrix,roc_curve,roc_auc_score
-from sklearn.model_selection import GridSearchCV
-from sklearn.preprocessing import LabelEncoder
-
-#preprocess.
-from keras.preprocessing.image import ImageDataGenerator
-
-#dl libraraies
-from keras import backend as K
-from keras.models import Sequential
-from keras.layers import Dense
-from keras.optimizers import Adam,SGD,Adagrad,Adadelta,RMSprop
+import matplotlib.image as mpimg # Plotting
+from random import randint
+import keras
 from keras.utils import to_categorical
-from keras.callbacks import ModelCheckpoint,EarlyStopping,TensorBoard,CSVLogger,ReduceLROnPlateau,LearningRateScheduler
+from sklearn.model_selection import train_test_split
+from keras import layers
+from keras import models
 
-# specifically for cnn
-from keras.layers import Dropout, Flatten,Activation
-from keras.layers import Conv2D, MaxPooling2D, BatchNormalization,GlobalAveragePooling2D
-import tensorflow as tf
-import random as rn
+def train():
+    #try:
+        try:
+            # get the data
+            base_dir = 'files_dependencies/gestures/images'
+            train_dir = os.path.join(base_dir, 'train')
+        except:
+            return ('ERROR: No se encontro la carpeta "train" dentro de la carpeta "images"')
 
-# specifically for manipulating zipped images and getting numpy arrays of pixel values of images.
-import cv2                  
-import numpy as np  
-from tqdm import tqdm
-import os                   
-from random import shuffle  
-from zipfile import ZipFile
-from PIL import Image
 
-lookup = dict()
-reverselookup = dict()
-count = 0
-for j in os.listdir('files_dependencies/images/leapGestRecog/00/'):
-    if not j.startswith('.'): # If running this code locally, this is to 
-                              # ensure you aren't reading in hidden folders
-        lookup[j] = count
-        reverselookup[count] = j
-        count = count + 1
-print(lookup)
 
-x_data = []
-y_data = []
-IMG_SIZE = 150
-datacount = 0 # We'll use this to tally how many images are in our dataset
-for i in range(0, 10): # Loop over the ten top-level folders
-    for j in os.listdir('files_dependencies/images/leapGestRecog/0' + str(i) + '/'):
-        if not j.startswith('.'): # Again avoid hidden folders
-            count = 0 # To tally images of a given gesture
-            for k in os.listdir('files_dependencies/images/leapGestRecog/0' + 
-                                str(i) + '/' + j + '/'):
-                                # Loop over the images
-                path = 'files_dependencies/images/leapGestRecog/0' + str(i) + '/' + j + '/' + k
-                img = cv2.imread(path,cv2.IMREAD_GRAYSCALE)
-                img = cv2.resize(img, (IMG_SIZE,IMG_SIZE))
-                arr = np.array(img)
-                x_data.append(arr) 
-                count = count + 1
-            y_values = np.full((count, 1), lookup[j]) 
-            y_data.append(y_values)
-            datacount = datacount + count
-x_data = np.array(x_data, dtype = 'float32')
-y_data = np.array(y_data)
-y_data = y_data.reshape(datacount, 1) # Reshape to be the correct size
+        list_train_dir = os.listdir('files_dependencies/gestures/images/train')
+        #print(list_train_dir)
 
-# check some image
-fig,ax=plt.subplots(5,2)
-fig.set_size_inches(15,15)
-for i in range(5):
-    for j in range (2):
-        l=rn.randint(0,len(y_data))
-        ax[i,j].imshow(x_data[l])
-        ax[i,j].set_title(reverselookup[y_data[l,0]])
         
-plt.tight_layout()
-#plt.show()
+        labels_names = ''
+        for x in range(len(list_train_dir)):
+            if x == 0:
+                labels_names = list_train_dir[x]
+            else:
+                labels_names = labels_names + ',' + list_train_dir[x]
+        labels_file = open('files_dependencies/gestures/labels.txt', 'w')
+        labels_file.write(labels_names)
+        labels_file.close()
+        labels_file = open('files_dependencies/gestures/labels.txt', 'r')
+        print('Labels creados: ' + str(labels_file.read().split(',')))
 
-y_data=to_categorical(y_data)
-x_data = x_data.reshape((datacount, IMG_SIZE, IMG_SIZE, 1))
-x_data = x_data/255
+        CATEGORIES = []
 
-x_train,x_test,y_train,y_test=train_test_split(x_data,y_data,test_size=0.25,random_state=42)
+        CATEGORIES = labels_file.read().split(',')
 
-model = Sequential()
-model.add(Conv2D(filters = 32, kernel_size = (5,5),padding = 'Same',activation ='relu', input_shape = (IMG_SIZE,IMG_SIZE,1)))
-model.add(MaxPooling2D(pool_size=(2,2)))
+        class_names = np.array(CATEGORIES)
+
+        training_data = []
+        IMG_SIZE = 150
 
 
-model.add(Conv2D(filters = 64, kernel_size = (3,3),padding = 'Same',activation ='relu'))
-model.add(MaxPooling2D(pool_size=(2,2), strides=(2,2)))
- 
 
-model.add(Conv2D(filters =96, kernel_size = (3,3),padding = 'Same',activation ='relu'))
-model.add(MaxPooling2D(pool_size=(2,2), strides=(2,2)))
+        def create_training_data():
+            u_ = 0
+            train_count = []
+            train_category = []
+            for category in CATEGORIES:  # do 
+                train_category.append(category)
+                train_count.append(0)
+                path = os.path.join(train_dir,category)  # create path 
+                class_num = CATEGORIES.index(category)  # get the classification  
+                for img in tqdm(os.listdir(path)):  # iterate over each image 
+                    try:
+                        img_array = cv2.imread(os.path.join(path,img) ,cv2.IMREAD_GRAYSCALE)  # convert to array
+                        new_array = cv2.resize(img_array, (IMG_SIZE, IMG_SIZE))  # resize to normalize data size
+                        training_data.append([new_array, class_num])  # add this to our training_data
+                        train_count[u_] += 1
+                    except Exception as e:  # in the interest in keeping the output clean...
+                        pass
+                    #except OSError as e:
+                    #    print("OSErrroBad img most likely", e, os.path.join(path,img))
+                    #except Exception as e:
+                    #    print("general exception", e, os.path.join(path,img))
+                u_ += 1
+            for i in range(len(train_count)):
+                if train_count[i] < 100:
+                    print ('CUIDADO: El numero minimo de imagenes por carpeta para entrenar ("train") deben ser 100. Hay: ' + str(train_count[i]) + ', en: ' + str(train_category[i]))
 
-model.add(Conv2D(filters = 96, kernel_size = (3,3),padding = 'Same',activation ='relu'))
-model.add(MaxPooling2D(pool_size=(2,2), strides=(2,2)))
+        create_training_data()
 
-model.add(Flatten())
-model.add(Dense(512))
-model.add(Activation('relu'))
-model.add(Dense(10, activation = "softmax"))
+        total_train = len(training_data)
+        
 
-batch_size=128
-epochs=10
+        x_data = []
+        y_data = []
+        datacount = total_train 
+        for features,label in training_data:
+            x_data.append(features)
+            y_data.append(label)
 
-checkpoint = ModelCheckpoint(
-    './base.model',
-    monitor='val_loss',
-    verbose=1,
-    save_best_only=True,
-    mode='min',
-    save_weights_only=False,
-    period=1
-)
-earlystop = EarlyStopping(
-    monitor='val_loss',
-    min_delta=0.001,
-    patience=30,
-    verbose=1,
-    mode='auto'
-)
-tensorboard = TensorBoard(
-    log_dir = './logs',
-    histogram_freq=0,
-    batch_size=16,
-    write_graph=True,
-    write_grads=True,
-    write_images=False,
-)
+        y_data = y_data.reshape(datacount,1)
+        y_data = to_categorical(y_data)
 
-csvlogger = CSVLogger(
-    filename= "training_csv.log",
-    separator = ",",
-    append = False
-)
+        x_data = x_data.reshape((datacount, 120, 320, 1))
+        x_data /= 255
+        x_train,x_further,y_train,y_further = train_test_split(x_data,y_data,test_size = 0.2)
+        x_validate,x_test,y_validate,y_test = train_test_split(x_further,y_further,test_size = 0.5)
 
-reduce = ReduceLROnPlateau(
-    monitor='val_loss',
-    factor=0.1,
-    patience=3,
-    verbose=1, 
-    mode='auto'
-)
 
-callbacks = [checkpoint,tensorboard,csvlogger,reduce]
+        model=models.Sequential()
+        model.add(layers.Conv2D(32, (5, 5), strides=(2, 2), activation='relu', input_shape=(120, 320,1))) 
+        model.add(layers.MaxPooling2D((2, 2)))
+        model.add(layers.Conv2D(64, (3, 3), activation='relu')) 
+        model.add(layers.MaxPooling2D((2, 2)))
+        model.add(layers.Conv2D(64, (3, 3), activation='relu'))
+        model.add(layers.MaxPooling2D((2, 2)))
+        model.add(layers.Flatten())
+        model.add(layers.Dense(128, activation='relu'))
+        model.add(layers.Dense(10, activation='softmax'))
 
-model.compile(optimizer=Adam(lr=0.001),loss='categorical_crossentropy',metrics=['accuracy'])
+        model.compile(optimizer='rmsprop',
+                    loss='categorical_crossentropy',
+                    metrics=['accuracy'])
+        model.fit(x_train, y_train, epochs=10, batch_size=64, verbose=1, validation_data=(x_validate, y_validate))
 
-model.summary()
+        [loss, acc] = model.evaluate(x_test,y_test,verbose=1)
+        print("Accuracy:" + str(acc))
 
-History = model.fit(x_train, y_train, epochs=epochs, batch_size=batch_size, verbose=1, validation_data=(x_test, y_test),callbacks=callbacks)
-
-test_loss, test_acc = model.evaluate(x_test, y_test, verbose=2)
-
-model.save("files_dependencies/model/model.h5")
-
+        model.save("files_dependencies/gestures/model/model3.h5")

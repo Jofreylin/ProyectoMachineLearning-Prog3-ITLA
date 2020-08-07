@@ -35,7 +35,7 @@ def test(image_file):
             return new_array.reshape(-1, IMG_SIZE, IMG_SIZE, 1)
 
 
-        model = tf.keras.models.load_model("files_dependencies/gestures/model/model5.h5")
+        model = tf.keras.models.load_model("files_dependencies/gestures/model/model.h5")
 
         #model.summary()
         #print(class_names)
