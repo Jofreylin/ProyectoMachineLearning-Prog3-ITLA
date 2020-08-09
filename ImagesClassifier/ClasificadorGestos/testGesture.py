@@ -27,7 +27,7 @@ def test(image_file):
         CATEGORIES = labels_file.read().split(',')
         class_names = np.array(CATEGORIES)
 
-        IMG_SIZE = 150
+        IMG_SIZE = 100
 
         def prepare(filepath):
             img_array = cv2.imread(filepath,cv2.IMREAD_GRAYSCALE)
@@ -35,7 +35,7 @@ def test(image_file):
             return new_array.reshape(-1, IMG_SIZE, IMG_SIZE, 1)
 
 
-        model = tf.keras.models.load_model("files_dependencies/gestures/model/model8.h5")
+        model = tf.keras.models.load_model("files_dependencies/gestures/model/model9.h5")
 
         #model.summary()
         #print(class_names)

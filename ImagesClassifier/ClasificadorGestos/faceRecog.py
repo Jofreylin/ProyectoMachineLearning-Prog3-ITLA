@@ -104,31 +104,32 @@ def draw_faces(image, faces=None, plot=False):
         return image_with_faces
 
 def detect(img):
-    image = read_image(img)
-    faces = get_faces(image)
-    print("Faces detected: {}".format(len(faces)))
-    final_image = draw_faces(image,faces)
-    cv2_img = cv2.cvtColor(final_image, cv2.COLOR_RGB2BGR)
+    try:
+        image = read_image(img)
+        faces = get_faces(image)
+        print("Faces detected: {}".format(len(faces)))
+        final_image = draw_faces(image,faces)
+        cv2_img = cv2.cvtColor(final_image, cv2.COLOR_RGB2BGR)
 
-    filename = "files_dependencies/faces/images/test/test-reconstructed.jpg"
-    cv2.imwrite(filename, cv2_img)
+        filename = "files_dependencies/faces/images/test/test-reconstructed.jpg"
+        cv2.imwrite(filename, cv2_img)
 
-    with open(filename, "rb") as fid:
-        data = fid.read()
+        with open(filename, "rb") as fid:
+            data = fid.read()
 
-    b64_bytes = base64.b64encode(data)
-    b64_string = b64_bytes.decode()
-    b64_string = 'data:image/jpeg;base64,'+b64_string
+        b64_bytes = base64.b64encode(data)
+        b64_string = b64_bytes.decode()
+        b64_string = 'data:image/jpeg;base64,'+b64_string
 
-    result_array = []
+        result_array = []
 
-    rd = "Rostros detectados: {}".format(len(faces))
+        rd = "Rostros detectados: {}".format(len(faces))
 
-    result_array.append(b64_string)
-    result_array.append(rd)
-
-    
-    return(result_array)
+        result_array.append(b64_string)
+        result_array.append(rd)
+        return(result_array)
+    except:
+        return('ERROR: No se ha podido realizar el reconocimiento.')
 
 def decodeIt(b64_string):
     try:
