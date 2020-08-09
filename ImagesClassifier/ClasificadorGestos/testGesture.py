@@ -35,7 +35,7 @@ def test(image_file):
             return new_array.reshape(-1, IMG_SIZE, IMG_SIZE, 1)
 
 
-        model = tf.keras.models.load_model("files_dependencies/gestures/model/model9.h5")
+        model = tf.keras.models.load_model("files_dependencies/gestures/model/model10.h5")
 
         #model.summary()
         #print(class_names)
@@ -47,7 +47,7 @@ def test(image_file):
         if confidence < 50:
             return ('No se ha reconocido la imagen.')
         else:
-            return ("{} {:2.0f}%".format(class_names[predicted_label],100 * np.max(prediction[0])))
+            return ("{} {:2.0f}%".format(class_names[predicted_label],confidence))
     except:
         return ('ERROR: No se ha podido realizar el analisis.')
 
