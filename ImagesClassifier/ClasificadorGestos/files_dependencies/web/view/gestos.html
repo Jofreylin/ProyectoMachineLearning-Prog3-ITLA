@@ -65,14 +65,14 @@
       <hr>
       <div class="input-group mb-3">
         <div class="custom-file">
-          <input id="buscadorImagenes" onchange="previewImage(this,'infoGesto','(Este es el GESTO): 0%')" type="file" class="custom-file-input" id="inputGroupFile01"
+          <input id="buscadorImagenes" onchange="previewImage(this,'infoGesto','Este es el (GESTO): 0%')" type="file" class="custom-file-input" id="inputGroupFile01"
             aria-describedby="inputGroupFileAddon01" accept=".jpg,.png,.jpeg">
           <label class="custom-file-label" for="inputGroupFile01">Seleccionar imagen</label>
         </div>
       </div>
       <hr>
       <div>
-        <img id="imagePreviewed" width="200" height="200">
+          <img id="imagePreviewed" width="250" height="250">
       </div>
       <br>
       <div class="d-flex justify-content-center">
@@ -81,14 +81,48 @@
         </div>
       </div>
       <br>
-      <h5 id="infoGesto">(Este es el GESTO): 0%</h5>
+      <h5 id="infoGesto">Este es el (GESTO): 0%</h5>
       <h6 id="typeFileHidden" hidden></h1>
       <h6 id="b64FileHidden" hidden></h6>
       <hr>
       <button id="analizarImagen" onclick="recogImageGesture()" type="button" class="btn btn-outline-success btn-block btn-lg">ANALIZAR</button>
     </div>
   </section>
-
+  <hr>
+  <section class="py-5">
+    <div class="container">
+      <h5>GESTOS: Significados</h5>
+      <br>
+      <div class="card-columns">
+        <div id="gesturePaz" class="card bg-success" style="width: 18rem;">
+          <img class="card-img-top" src="./img/paz.JPG" alt="Card image cap">
+          <div class="card-body">
+            <p class="card-text">Todo en orden (PAZ)</p>
+          </div>
+        </div>
+        <div id="gestureCinco" class="card bg-danger" style="width: 18rem;">
+          <img class="card-img-top" src="./img/cinco.JPG" alt="Card image cap">
+          <div class="card-body">
+            <p class="card-text">Llamar a los bomberos (CINCO)</p>
+          </div>
+        </div>
+        <div id="gesturePrimer" class="card bg-danger" style="width: 18rem;">
+          <img class="card-img-top" src="./img/primer.JPG" alt="Card image cap">
+          <div class="card-body">
+            <p class="card-text">Llamar a la policia (PRIMER)</p>
+          </div>
+        </div>
+        <div id="gestureZero" class="card bg-danger" style="width: 18rem;">
+          <img class="card-img-top" src="./img/zero.JPG" alt="Card image cap">
+          <div class="card-body">
+            <p class="card-text">Llamar una ambulancia (ZERO)</p>
+          </div>
+        </div>
+      </div>
+      
+      
+    </div>
+  </section>
   <!-- Image element - set the background image for the header in the line below -->
 
 

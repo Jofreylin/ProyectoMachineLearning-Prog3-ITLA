@@ -1,24 +1,15 @@
-function getGesture() {
-	var data = document.getElementById("data").value
-	var busqueda = eel.getGesture(data);
-	document.getElementById("animal").innerHTML = "Amarillo";
-}
-
-function setImage(base64) {
-	document.getElementById("qr").src = base64
-}
 
 async function recogImageGesture(){
 	
 	var buscador = document.getElementById("buscadorImagenes")
 	var boton = document.getElementById("analizarImagen")
 	var spinner = document.getElementById("progressSpinnerG")
-	
 	buscador.disabled = true
 	boton.disabled = true
 	spinner.hidden = false
-
-	var info = "(Este es el GESTO): 0%"
+	
+	
+	var info = "Este es el (GESTO): 0%"
 	document.getElementById("infoGesto").innerHTML = info
 
 	var typefile = document.getElementById("typeFileHidden").innerHTML
@@ -78,14 +69,6 @@ async function recogImageFace(){
 					document.getElementById("infoGesto").innerHTML = info
 					//console.log(ret)
 				});*/
-		}
-}
-
-async function getFolder() {
-	var dosya_path = await eel.btn_ResimyoluClick()();
-		if (dosya_path) {
-			console.log(dosya_path);
-			document.getElementById("data").value = dosya_path;
 		}
 }
 
@@ -150,18 +133,24 @@ async function verificarRostro(element){
 }
 
 async function uploadFace(element){
-	var selectt = document.getElementById("seleccionOption")
-	selectt.disabled = true
+	
 	var texto = document.getElementById('inputVerificar')
-	var info = document.getElementById("infoFaceR")
 	var spinner = document.getElementById("progressSpinnerR")
-	var btnRegister = document.getElementById("btnRegistrar")
-	info.innerHTML = ""
-	element.disabled = true
 	spinner.hidden = false
-	btnRegister.disabled = true
 
-	var data = await eel.setFaces(texto.value,100)();
+	if(texto.value.length <= 0){
+		console.log('El campo no puede estar vacio')
+		spinner.hidden = true
+	}else{
+		var selectt = document.getElementById("seleccionOption")
+		selectt.disabled = true
+		var info = document.getElementById("infoFaceR")
+		var btnRegister = document.getElementById("btnRegistrar")
+		info.innerHTML = ""
+		element.disabled = true
+		btnRegister.disabled = true
+		
+		var data = await eel.setFaces(texto.value,100)();
 		if (data) {
 			console.log(data)
 			var info2 = data
@@ -172,6 +161,8 @@ async function uploadFace(element){
 			element.disabled = false
 			selectt.disabled = false
 		}
+	}
+	
 }
 
 async function registrarFace(element){
@@ -196,6 +187,7 @@ async function registrarFace(element){
 			var info2 = data
 			info.innerHTML = info2
 			btnUpload.hidden = true
+			btnUpload.disabled = false
 			spinner.hidden = true
 			element.disabled = false
 			texto.disabled = false

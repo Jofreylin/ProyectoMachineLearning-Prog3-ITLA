@@ -35,7 +35,7 @@ def test(image_file):
             return new_array.reshape(-1, IMG_SIZE, IMG_SIZE, 1)
 
 
-        model = tf.keras.models.load_model("files_dependencies/gestures/model/model6.h5")
+        model = tf.keras.models.load_model("files_dependencies/gestures/model/model8.h5")
 
         #model.summary()
         #print(class_names)
@@ -63,7 +63,7 @@ def decodeIt(b64_string):
         #Retorna el reconocimiento de gesto
         return test('files_dependencies/gestures/test/test.jpg')
     except:
-        return('No se pudo decodificar la imagen.')
+        return('ERROR: No se pudo decodificar la imagen.')
 
 
 #print(test('files_dependencies/gestures/test/frame_00_02_0001.png'))

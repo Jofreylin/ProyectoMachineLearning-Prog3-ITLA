@@ -67,7 +67,7 @@ def train():
         
         return('Rostros registrados exitosamente.')
     except:
-        return('No se pudo entrenar el modelo.')
+        return('ERROR: No se pudo entrenar el modelo.')
     
 
 #print(train())
