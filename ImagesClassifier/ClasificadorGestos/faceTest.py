@@ -33,7 +33,7 @@ def test():
                 
                 # recognize - deep learned model
                 id_, conf = recognizer.predict(roi_gray)
-                if conf>=30: #and conf<=85:
+                if conf>=40:
                     #print(id_)
                     font = cv2.FONT_HERSHEY_SIMPLEX
                     name = labels[id_]

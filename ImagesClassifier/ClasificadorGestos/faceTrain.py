@@ -27,7 +27,7 @@ def train():
             
             file = []
             for file in files:
-                if file.endswith("png") or file.endswith("jpg") or file.endswith("jpeg"):
+                if file.lower().endswith("png") or file.lower().endswith("jpg") or file.lower().endswith("jpeg"):
                     path = os.path.join(root,file)
                     label = os.path.basename(os.path.dirname(path)).replace(" ","_")
                     

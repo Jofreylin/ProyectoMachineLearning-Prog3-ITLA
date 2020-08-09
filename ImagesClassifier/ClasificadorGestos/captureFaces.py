@@ -59,7 +59,8 @@ def capture(nombre,cantidad):
 
         countStart = 0
         cap = cv2.VideoCapture(0)
-
+        cap.set(cv2.CAP_PROP_FRAME_HEIGHT,720)
+        cap.set(cv2.CAP_PROP_FRAME_WIDTH,1080)
         while True:
             ret, frame = cap.read()
             if not ret:
@@ -68,10 +69,10 @@ def capture(nombre,cantidad):
             if countStart == num_samples:
                 break
 
-            cv2.rectangle(frame, (100, 100), (500, 500), (255, 255, 255), 2)
+            cv2.rectangle(frame, (300, 20), (1000, 720), (255, 255, 255), 2)
 
             if start:
-                roi = frame[100:500, 100:500]
+                roi = frame[20:720, 300:1000]
                 save_path = os.path.join(IMG_CLASS_PATH, '{}.jpg'.format(count + 1))
                 cv2.imwrite(save_path, roi)
                 count += 1
