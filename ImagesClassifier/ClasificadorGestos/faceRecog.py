@@ -13,8 +13,8 @@ import base64
 def read_image(path):
     """ Method to read an image from file to matrix """
     image = cv2.imread(path)
-    image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
-    return image
+    imag = cv2.cvtColor(image, cv2.COLOR_RGB2BGR)
+    return imag
 
 def plot_image(image, title=''):
     """ It plots an image as it is in a single column plot """
@@ -62,9 +62,9 @@ def draw_faces(image, faces=None, plot=False):
     # Get the bounding box for each detected face
     recognizer = cv2.face.LBPHFaceRecognizer_create()
     recognizer.read("files_dependencies/faces/model/trainner.yml")
-    gray = cv2.cvtColor(image_with_faces, cv2.COLOR_BGR2GRAY)
-
+    gray = cv2.cvtColor(image_with_faces, cv2.COLOR_RGB2GRAY)
     labels = {}
+
     with open("files_dependencies/faces/data/labels.pickle","rb") as f:
         labels = pickle.load(f)
         labels = {v:k for k,v in labels.items()} #v=value,k=key
@@ -107,8 +107,8 @@ def detect(img):
     image = read_image(img)
     faces = get_faces(image)
     print("Faces detected: {}".format(len(faces)))
-
-    cv2_img = cv2.cvtColor(draw_faces(image, faces), cv2.COLOR_RGB2BGR)
+    final_image = draw_faces(image,faces)
+    cv2_img = cv2.cvtColor(final_image, cv2.COLOR_RGB2BGR)
 
     filename = "files_dependencies/faces/images/test/test-reconstructed.jpg"
     cv2.imwrite(filename, cv2_img)
@@ -141,6 +141,6 @@ def decodeIt(b64_string):
         #Retorna el reconocimiento de gesto
         return detect('files_dependencies/faces/images/test/test.jpg')
     except:
-        return('No se pudo decodificar la imagen.')
+        return('ERROR: No se pudo decodificar la imagen.')
 
 #detect()

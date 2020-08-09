@@ -98,7 +98,7 @@ def capture(nombre,cantidad):
         cv2.destroyAllWindows()
         return("\n{} Imagenes guardadas {}".format(count, IMG_CLASS_PATH))
     except:
-        return('No se ha podido realizar el proceso de captura.')
+        return('ERROR: No se ha podido realizar el proceso de captura.')
 
 #capture('Johelin',400)
 #print(searchClass('Pedro'))
